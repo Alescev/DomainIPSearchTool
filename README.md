@@ -1,6 +1,6 @@
 # URLscanInternetFinder
 
-This Python script performs a bulk search of domains using the urlscan.io API and Bing Search.
+This Python script performs a bulk search of domains using the urlscan.io API and Bing Search API.
 
 ## Features
 
@@ -13,16 +13,23 @@ This Python script performs a bulk search of domains using the urlscan.io API an
 ## Requirements
 
 - Python 3.x
-- Libraries: `requests`
+- Libraries: `requests`, `python-dotenv`
 
 ## Configuration
 
-Before running the script, make sure to configure the following API keys:
+Before running the script, make sure to configure the API keys:
 
-1. URLSCAN_API_KEY: Obtain an API key from [urlscan.io](https://urlscan.io/)
-2. BING_API_KEY: Obtain an API key from [Bing Search API](https://www.microsoft.com/en-us/bing/apis/bing-web-search-api)
+1. Create a `.env` file in the same directory as the script
+2. Add your API keys to the `.env` file in the following format:
+   ```
+   URLSCAN_API_KEY=your_urlscan_api_key_here
+   BING_API_KEY=your_bing_api_key_here
+   ```
+3. Obtain API keys from:
+   - [urlscan.io](https://urlscan.io/) for URLSCAN_API_KEY
+   - [Bing Search API](https://www.microsoft.com/en-us/bing/apis/bing-web-search-api) for BING_API_KEY
 
-Insert your API keys into the corresponding variables at the beginning of the script.
+The script will automatically read the API keys from the `.env` file.
 
 ## Usage
 
@@ -40,8 +47,10 @@ For each found domain, the script will display:
 
 Only articles where the domain is mentioned in the text will be shown.
 
-If you choose to save the results, they will be written to a text file in a similar format.
-
 ## Notes
 
 This script is useful for large-scale intelligence research and domain analysis. Make sure to comply with the terms of service of the APIs used.
+
+## Security
+
+The `.env` file containing your API keys is included in the `.gitignore` file to prevent accidental exposure of sensitive information. Never commit or share your `.env` file.

@@ -1,10 +1,15 @@
+import os
+from dotenv import load_dotenv
 import requests
 from urllib.parse import quote_plus
 import re
 
-# Configure your urlscan and Bing Search API keys
-URLSCAN_API_KEY = 'apikey'
-BING_API_KEY = 'apikey'
+# Load environment variables from .env file
+load_dotenv()
+
+# Get API keys from environment variables
+URLSCAN_API_KEY = os.getenv('URLSCAN_API_KEY')
+BING_API_KEY = os.getenv('BING_API_KEY')
 
 def get_domains_from_urlscan(query):
     url = 'https://urlscan.io/api/v1/search/'
