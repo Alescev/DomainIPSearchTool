@@ -1,3 +1,7 @@
+Deprecated. Functionalities integrated into: https://github.com/Alescev/IOCinformation
+
+
+
 # URLscanInternetFinder
 
 This Python script performs a bulk search of domains using the urlscan.io API and Bing Search API.
