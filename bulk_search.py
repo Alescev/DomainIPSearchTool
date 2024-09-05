@@ -2,7 +2,7 @@ import requests
 from urllib.parse import quote_plus
 import re
 
-# Configura la tua API key di urlscan e Bing Search
+# Configure your urlscan and Bing Search API keys
 URLSCAN_API_KEY = 'apikey'
 BING_API_KEY = 'apikey'
 
@@ -48,7 +48,7 @@ def parse_search_results(search_results):
     return parsed_results
 
 def check_domain_in_text(domain, text):
-    # Crea una regex per cercare il dominio con vari tipi di escaping
+    # Create a regex to search for the domain with various types of escaping
     escaped_domain = re.escape(domain)
     patterns = [
         escaped_domain,
@@ -60,25 +60,45 @@ def check_domain_in_text(domain, text):
     try:
         return re.search(combined_pattern, text, re.IGNORECASE) is not None
     except re.error as e:
-        print(f"Errore nella regex: {e}")
+        print(f"Regex error: {e}")
         return False
 
+def save_results_to_file(parsed_results, filename):
+    with open(filename, 'w', encoding='utf-8') as f:
+        for domain, articles in parsed_results.items():
+            f.write(f"Articles found for {domain}:\n")
+            f.write("=" * 80 + "\n")
+            for article in articles:
+                if check_domain_in_text(domain, article['snippet']):
+                    f.write(f"Title  : {article['title']}\n")
+                    f.write(f"Snippet: {article['snippet']}\n")
+                    f.write(f"URL    : {article['url']}\n")
+                    f.write("-" * 80 + "\n")
+            f.write("\n")
+
 def main():
-    query = input("Inserisci la query di urlscan: ")
+    query = input("Enter the urlscan query: ")
     domains = get_domains_from_urlscan(query)
-    print(f"\nDomini trovati: {domains}\n")
+    print(f"\nDomains found: {domains}\n")
     search_results = search_articles_for_domains(domains)
     parsed_results = parse_search_results(search_results)
+    
     for domain, articles in parsed_results.items():
-        print(f"Articoli trovati per {domain}:")
+        print(f"Articles found for {domain}:")
         print("=" * 80)
         for article in articles:
             if check_domain_in_text(domain, article['snippet']):
-                print(f"Titolo : {article['title']}")
+                print(f"Title  : {article['title']}")
                 print(f"Snippet: {article['snippet']}")
                 print(f"URL    : {article['url']}")
                 print("-" * 80)
         print("\n")
+    
+    save_option = input("Do you want to save the results to a file? (y/n): ").lower()
+    if save_option == 'y':
+        filename = input("Enter the filename to save results (e.g., results.txt): ")
+        save_results_to_file(parsed_results, filename)
+        print(f"Results saved to {filename}")
 
 if __name__ == "__main__":
     main()

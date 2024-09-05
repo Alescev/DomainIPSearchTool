@@ -1,43 +1,47 @@
 # URLscanInternetFinder
 
-Questo script Python esegue una ricerca in massa di domini utilizzando l'API di urlscan.io e Bing Search.
+This Python script performs a bulk search of domains using the urlscan.io API and Bing Search.
 
-## Funzionalità
+## Features
 
-- Recupera domini da urlscan.io basati su una query fornita dall'utente
-- Cerca articoli relativi ai domini trovati utilizzando Bing Search API
-- Analizza i risultati della ricerca per trovare menzioni dei domini in altri siti web
-- Verifica la presenza dei domini nei testi degli articoli, considerando vari tipi di escaping
+- Retrieves domains from urlscan.io based on a user-provided query
+- Searches for articles related to the found domains using Bing Search API
+- Analyzes search results to find mentions of domains on other websites
+- Verifies the presence of domains in article texts, considering various types of escaping
+- Option to save results to a text file
 
-## Requisiti
+## Requirements
 
 - Python 3.x
-- Librerie: `requests`
+- Libraries: `requests`
 
-## Configurazione
+## Configuration
 
-Prima di eseguire lo script, assicurati di configurare le seguenti API key:
+Before running the script, make sure to configure the following API keys:
 
-1. URLSCAN_API_KEY: Ottieni una chiave API da [urlscan.io](https://urlscan.io/)
-2. BING_API_KEY: Ottieni una chiave API da [Bing Search API](https://www.microsoft.com/en-us/bing/apis/bing-web-search-api)
+1. URLSCAN_API_KEY: Obtain an API key from [urlscan.io](https://urlscan.io/)
+2. BING_API_KEY: Obtain an API key from [Bing Search API](https://www.microsoft.com/en-us/bing/apis/bing-web-search-api)
 
-Inserisci le tue chiavi API nelle variabili corrispondenti all'inizio dello script.
+Insert your API keys into the corresponding variables at the beginning of the script.
 
-## Utilizzo
+## Usage
 
-1. Esegui lo script: `python bulk_search.py`
-2. Inserisci la query di ricerca quando richiesto
-3. Lo script mostrerà i domini trovati e gli articoli correlati per ciascun dominio
+1. Run the script: `python bulk_search.py`
+2. Enter the search query when prompted
+3. The script will display the found domains and related articles for each domain
+4. Choose whether to save the results to a file
 
 ## Output
 
-Per ogni dominio trovato, lo script visualizzerà:
-- Titolo dell'articolo
-- Snippet dell'articolo
-- URL dell'articolo
+For each found domain, the script will display:
+- Article title
+- Article snippet
+- Article URL
 
-Verranno mostrati solo gli articoli in cui il dominio è menzionato nel testo.
+Only articles where the domain is mentioned in the text will be shown.
 
-## Note
+If you choose to save the results, they will be written to a text file in a similar format.
 
-Questo script è utile per ricerche di intelligence e analisi di domini su larga scala. Assicurati di rispettare i termini di servizio delle API utilizzate.
+## Notes
+
+This script is useful for large-scale intelligence research and domain analysis. Make sure to comply with the terms of service of the APIs used.
