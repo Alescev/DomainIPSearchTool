@@ -1,60 +1,75 @@
-# Deprecated. Functionalities integrated into: https://github.com/Alescev/IOCinformation
+# 🔍 Bulk Domain and IP Search Tool
 
+This Python script is designed to assist in cyber threat intelligence analysis and research activities. 🕵️‍♀️💻
 
+## 🚀 Features
 
-# URLscanInternetFinder
+- Retrieves domains/IPs from multiple sources:
+  - 🌐 urlscan.io
+  - 🔎 FOFA
+  - 🌍 Censys
+  - 🖧 Shodan
+  - ⌨️ Direct input
+- Searches for articles related to the found domains/IPs using:
+  - 🔍 Bing Search API
+  - 🔎 Google Custom Search API
+- 🧐 Analyzes search results to find mentions of domains/IPs on other websites
+- ✅ Verifies the presence of domains/IPs in article texts, considering various escaping techniques
+- 💾 Option to save results to a text file
 
-This Python script performs a bulk search of domains using the urlscan.io API and Bing Search API.
+## 🎯 Use Cases in Cyber Threat Intelligence
 
-## Features
+1. 🚀 **Efficient Data Gathering**: Quickly collect information on multiple domains or IPs from various sources.
+2. 🧩 **Context Enrichment**: Find existing research and articles mentioning your targets, providing additional context.
+3. ⏱️ **Time-Saving**: Automate the process of searching multiple sources and analyzing results.
+4. 🌐 **Comprehensive Coverage**: Leverage multiple data sources and search engines for a broader view.
+5. 🔍 **Result Verification**: Automatically check if the domain/IP is mentioned in the article text, reducing false positives.
 
-- Retrieves domains from urlscan.io based on a user-provided query
-- Searches for articles related to the found domains using Bing Search API
-- Analyzes search results to find mentions of domains on other websites
-- Verifies the presence of domains in article texts, considering various types of escaping
-- Option to save results to a text file
+## 🛠️ Requirements
 
-## Requirements
+- 🐍 Python 3.x
+- 📚 Libraries: `requests`, `python-dotenv`
 
-- Python 3.x
-- Libraries: `requests`, `python-dotenv`
+## ⚙️ Configuration
 
-## Configuration
+Before running the script, configure the API keys:
 
-Before running the script, make sure to configure the API keys:
-
-1. Create a `.env` file in the same directory as the script
-2. Add your API keys to the `.env` file in the following format:
+1. 📁 Create a `.env` file in the same directory as the script
+2. 🔑 Add your API keys to the `.env` file in the following format:
    ```
    URLSCAN_API_KEY=your_urlscan_api_key_here
    BING_API_KEY=your_bing_api_key_here
+   FOFA_API_KEY=your_fofa_api_key_here
+   CENSYS_API_KEY=your_censys_api_key_here
+   SHODAN_API_KEY=your_shodan_api_key_here
+   GOOGLE_API_KEY=your_google_api_key_here
+   GOOGLE_SEARCH_ENGINE_ID=your_google_search_engine_id_here
+   RESULT_LIMIT=100
    ```
-3. Obtain API keys from:
+3. 🔐 Obtain API keys from:
    - [urlscan.io](https://urlscan.io/) for URLSCAN_API_KEY
    - [Bing Search API](https://www.microsoft.com/en-us/bing/apis/bing-web-search-api) for BING_API_KEY
+   - [FOFA](https://fofa.info/) for FOFA_API_KEY
+   - [Censys](https://censys.io/) for CENSYS_API_KEY
+   - [Shodan](https://www.shodan.io/) for SHODAN_API_KEY
+   - [Google Custom Search API](https://developers.google.com/custom-search/v1/overview) for GOOGLE_API_KEY and GOOGLE_SEARCH_ENGINE_ID
 
-The script will automatically read the API keys from the `.env` file.
+The script will automatically read the API keys and settings from the `.env` file.
 
-## Usage
+## 🚀 Usage
 
-1. Run the script: `python bulk_search.py`
-2. Enter the search query when prompted
-3. The script will display the found domains and related articles for each domain
-4. Choose whether to save the results to a file
+1. 🖥️ Run the script: `python bulk_search.py`
+2. 🔢 Select the search source (URLScan, FOFA, Censys, Shodan, or Direct Input)
+3. 🔤 Enter the search query or domains/IPs when prompted
+4. 🔍 Choose the search engine for articles (Bing or Google)
+5. 👀 Review the displayed results
+6. 💾 Optionally save the results to a file
 
-## Output
+## 📊 Output
 
-For each found domain, the script will display:
-- Article title
-- Article snippet
-- Article URL
+For each found domain/IP, the script will display:
+- 📌 Article title
+- 📝 Article snippet
+- 🔗 Article URL
 
-Only articles where the domain is mentioned in the text will be shown.
-
-## Notes
-
-This script is useful for large-scale intelligence research and domain analysis. Make sure to comply with the terms of service of the APIs used.
-
-## Security
-
-The `.env` file containing your API keys is included in the `.gitignore` file to prevent accidental exposure of sensitive information. Never commit or share your `.env` file.
+Only articles with confirmed mentions of the domain/IP are shown. 👍
