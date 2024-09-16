@@ -84,12 +84,14 @@ Only articles with confirmed mentions of the domain/IP are shown.
 
 If an output file is specified, the results will be saved in the following format:
 
+   ```
 Articles found for example.com:
 ================================================================================
 Title : Example Article Title
 Snippet: This is a snippet of the article mentioning example.com...
 URL : https://example-article-url.com
 --------------------------------------------------------------------------------
+   ```
 
 ## ⚠️ Notes
 
