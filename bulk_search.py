@@ -1,4 +1,5 @@
 import os
+import argparse
 from dotenv import load_dotenv
 import requests
 from urllib.parse import quote_plus
@@ -172,44 +173,76 @@ def save_results_to_file(parsed_results, filename):
                     f.write("-" * 80 + "\n")
             f.write("\n")
 
-def get_direct_input():
-    input_str = input("Enter domains/IPs (comma-separated): ")
-    return [item.strip() for item in input_str.split(',')]
-
-def get_results_from_api(source, query):
-    if source == 'u':
-        return get_domains_from_urlscan(query)
-    elif source == 'f':
-        return get_ips_from_fofa(query)
-    elif source == 'c':
-        return get_ips_from_censys(query)
-    elif source == 's':
-        return get_ips_from_shodan(query)
+def parse_arguments():
+    parser = argparse.ArgumentParser(description='Bulk Domain and IP Search Tool')
+    parser.add_argument('query', type=str, nargs='?', help='Search query (enclose in quotes if it contains spaces)')
+    parser.add_argument('-t', '--targets', type=str, help='Comma-separated list of domains or IP addresses to search for')
+    parser.add_argument('-u', '--urlscan', action='store_true', help='Use URLscan as a source')
+    parser.add_argument('-f', '--fofa', action='store_true', help='Use FOFA as a source')
+    parser.add_argument('-c', '--censys', action='store_true', help='Use Censys as a source')
+    parser.add_argument('-s', '--shodan', action='store_true', help='Use Shodan as a source')
+    parser.add_argument('-b', '--bing', action='store_true', help='Use Bing for article search')
+    parser.add_argument('-g', '--google', action='store_true', help='Use Google for article search')
+    parser.add_argument('-o', '--output', type=str, help='Filename to save results (e.g., results.txt)')
+    return parser.parse_args()
 
 def main():
-    print("Select search source:")
-    print("[u] URLScan\n[f] FOFA\n[c] Censys\n[s] Shodan\n[d] Direct Input (domains/IPs)")
-    source_choice = input("Enter your choice (u/f/c/s/d): ").lower()
+    args = parse_arguments()
+    
+    if args.targets:
+        # Split the comma-separated string into a list and remove any whitespace
+        targets = [target.strip() for target in args.targets.split(',')]
+        domains_or_ips = set(targets)
+        print(f"Using provided targets: {', '.join(domains_or_ips)}")
+    elif args.query:
+        # Existing code to search using APIs
+        sources = []
+        if args.urlscan:
+            sources.append(('u', get_domains_from_urlscan))
+        if args.fofa:
+            sources.append(('f', get_ips_from_fofa))
+        if args.censys:
+            sources.append(('c', get_ips_from_censys))
+        if args.shodan:
+            sources.append(('s', get_ips_from_shodan))
+        
+        if not sources:
+            print("Error: At least one source (-u, -f, -c, -s) must be specified when using a query.")
+            return
 
-    if source_choice in ['u', 'f', 'c', 's']:
-        query = input("Enter your search query: ")
-        domains_or_ips = get_results_from_api(source_choice, query)
-    elif source_choice == 'd':
-        domains_or_ips = get_direct_input()
+        # Collect results from all specified sources
+        domains_or_ips = set()
+        for source, func in sources:
+            print(f"Searching {func.__name__[9:]}...")
+            results = func(args.query)
+            domains_or_ips.update(results)
+            print(f"Found {len(results)} results from {func.__name__[9:]}")
     else:
-        print("Invalid choice. Exiting.")
+        print("Error: Either a query or targets must be specified.")
         return
 
-    print("\nSelect search engine for articles:")
-    print("[b] Bing\n[g] Google")
-    engine_choice = input("Enter your choice (b/g): ").lower()
-    engine = 'bing' if engine_choice == 'b' else 'google'
+    if not domains_or_ips:
+        print("No targets found.")
+        return
 
+    # Determine which search engine to use
+    if args.bing and args.google:
+        print("Error: Please specify only one search engine (-b or -g).")
+        return
+    elif args.bing:
+        engine = 'bing'
+    elif args.google:
+        engine = 'google'
+    else:
+        print("Error: Please specify a search engine (-b for Bing or -g for Google).")
+        return
+
+    print(f"\nSearching for articles using {engine.capitalize()}...")
     search_results = search_articles_for_domains(domains_or_ips, engine)
     parsed_results = parse_search_results(search_results, engine)
     
     for item, articles in parsed_results.items():
-        print(f"Articles found for {item}:")
+        print(f"\nArticles found for {item}:")
         print("=" * 80)
         for article in articles:
             if check_item_in_text(item, article['snippet']):
@@ -217,13 +250,10 @@ def main():
                 print(f"Snippet: {article['snippet']}")
                 print(f"URL    : {article['url']}")
                 print("-" * 80)
-        print("\n")
     
-    save_option = input("Do you want to save the results to a file? (y/n): ").lower()
-    if save_option == 'y':
-        filename = input("Enter the filename to save results (e.g., results.txt): ")
-        save_results_to_file(parsed_results, filename)
-        print(f"Results saved to {filename}")
+    if args.output:
+        save_results_to_file(parsed_results, args.output)
+        print(f"Results saved to {args.output}")
 
 if __name__ == "__main__":
     main()
