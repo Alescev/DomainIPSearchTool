@@ -73,3 +73,9 @@ For each found domain/IP, the script will display:
 - 🔗 Article URL
 
 Only articles with confirmed mentions of the domain/IP are shown. 👍
+
+## Examples
+![example_4](https://github.com/user-attachments/assets/c2edd99e-ac8a-4bbd-9a7e-cd649407ac31)
+![example_3](https://github.com/user-attachments/assets/7097c376-2ce6-4ff0-934d-ee52d077b100)
+![example_2](https://github.com/user-attachments/assets/248a21b9-1543-4c9e-82b8-e9addeb9f278)
+![example_1](https://github.com/user-attachments/assets/4fcf8312-2246-4cb6-b859-ba9bb596abd9)
