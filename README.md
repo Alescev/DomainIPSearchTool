@@ -58,15 +58,19 @@ python bulk_search.py [query] [options]
 
 ### Examples
 
-1. Search for a specific query using URLscan and FOFA, then search for articles using Bing:
+1. Search for a specific query using URLscan, then search for articles using Bing:
    ```
-   python bulk_search.py "example.com" -u -f -b
+   python bulk_search.py "query" -u -b
    ```
+
+<img width="513" alt="example_1" src="https://github.com/user-attachments/assets/c9b440d4-2fc2-4e62-ac9e-602d6941a09c">
+
 
 2. Search for articles about specific targets using Google and save results:
    ```
    python bulk_search.py -t example.com,192.168.1.1 -g -o results.txt
    ```
+<img width="846" alt="example_2" src="https://github.com/user-attachments/assets/62bf9212-7cc0-47dd-b8f1-5facd1acb5e7">
 
 3. Search for IPs related to a query using Censys and Shodan, then search for articles using Bing:
    ```
